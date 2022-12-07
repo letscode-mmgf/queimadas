@@ -2,8 +2,6 @@
 
 ## :information_source: Sobre
 
-<br>
-
 Projeto de conclusão da matéria Técnicas de Programação II (PY) do curso de Python e Dados da Let's Code em parceria com a Suzano Celulose e Papel S/A.
 
 <br>
@@ -14,7 +12,6 @@ No estudo de caso, foi utilizado o seguinte [Dataset](<https://www.kaggle.com/da
 
 <h2 align="center"> Tecnologias Utilizadas </h2>
 
-***
 <br>
 
 <p align="center">
@@ -30,9 +27,7 @@ No estudo de caso, foi utilizado o seguinte [Dataset](<https://www.kaggle.com/da
 <div align="center">
     <h2>Autores </h2>
 
-***
-
-[Filipe Souza](https://github.com/lfilipesousa)
+[Filipe Sousa](https://github.com/lfilipesousa)
 
 [Guilherme Oliveira](https://github.com/guioliveiras)
 
