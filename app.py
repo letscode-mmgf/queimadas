@@ -60,21 +60,16 @@ st.dataframe(df.head())
 
 st.write('Gráfico')
 
-""" 
-
-
-#st.table(df.info())
-#descobrir como imprimir um info no streamlit
-
-
 st.write(regioes)
-filtro_regiao = []
 
-st.write(teste(regioes))
+if analise == 'Análise Univariada':
+    if tipo == 'Linha': st.plotly_chart(get_line_chart(df))
+    elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
+    elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
 
-if analise == 'Análise Univariada' and tipo == 'Linhas':
-    st.plotly_chart(get_line_chart(df))
+if analise == 'Análise Bivariada':
+    if tipo == 'Linha': st.plotly_chart(get_line_chart(df))
+    elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
+    elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
 
-st.plotly_chart(get_histogram(df, filtro_regiao))
-
-rotulos = st.checkbox(label='Mostrar rótulos', value=False) """
+rotulos = st.checkbox(label='Mostrar rótulos', value=False)

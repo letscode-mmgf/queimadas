@@ -53,10 +53,3 @@ def get_line_chart(df):
     linha = px.line(data_frame=df_plot, x='year', y='number', markers=True, template='plotly_dark')
     personalizacao(linha, 'Anos', 'Número de Queimadas Registradas', None)
     return linha
-
-def teste(regioes):
-    filtro_regiao = []
-    for i, valor in enumerate(regioes):
-        filtro_regiao.append(valor)
-
-    return filtro_regiao
