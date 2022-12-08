@@ -3,8 +3,9 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 
+st.set_page_config( layout='wide' )
 
-st.title('Queimadas no Brasil')
+st.markdown("<h1 style='text-align: center; color: red;'>Queimadas no Brasil</h1>", unsafe_allow_html=True)
 
 st.image(Image.open('mapa-do-brasil.png'))
 
