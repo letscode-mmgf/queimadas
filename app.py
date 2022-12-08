@@ -18,34 +18,34 @@ analise = st.sidebar.selectbox(
     label="Tipo de Análise", 
     options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
 
-if analise == 'Análise Univariada': n = 1
-elif analise == 'Análise Bivariada': n = 2
-elif analise == 'Análise Multivariada': n = 3
-
 tipo = st.sidebar.radio(label='Tipo', options=['Linhas', 'Barras', 'Dispersão'], index=0)
 
-criterios = st.sidebar.multiselect(
-        label="Critérios", 
-        options=['Anos', 'Regiões', 'Estações'],
-        max_selections=n
+if analise != 'Análise Univariada':
+    if analise == 'Análise Bivariada': n = 2
+    elif analise == 'Análise Multivariada': n = 3
+
+    criterios = st.sidebar.multiselect(
+            label="Critérios", 
+            options=['Anos', 'Regiões', 'Estações'],
+            max_selections=n
 )
 
-if 'Estações' in criterios:
-    estacoes = st.sidebar.multiselect(
-        label='Estações', 
-        options=['Outono', 'Inverno', 'Primavera', 'Verão'],
-        default=['Outono', 'Inverno', 'Primavera', 'Verão']
-    )
+    if 'Estações' in criterios:
+        estacoes = st.sidebar.multiselect(
+            label='Estações', 
+            options=['Outono', 'Inverno', 'Primavera', 'Verão'],
+            default=['Outono', 'Inverno', 'Primavera', 'Verão']
+        )
 
-if 'Regiões' in criterios:
-    regioes = st.sidebar.multiselect(
-        label="Região", 
-        options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
-        default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
-    )
+    if 'Regiões' in criterios:
+        regioes = st.sidebar.multiselect(
+            label="Região", 
+            options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
+            default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
+        )
 
-if 'Anos' in criterios:
-    anos = st.sidebar.select_slider(label='Anos', options=(list(range(1998, 2018, 1))))
+    if 'Anos' in criterios:
+        anos = st.sidebar.select_slider(label='Anos', options=(list(range(1998, 2018, 1))))
     
 st.title('Descrição dos dados')
 st.write('Os dados forem obtidos de uma fonte primária, abrangendo ocorrências de queimadas florestais no período de 1998 a 2017.')
