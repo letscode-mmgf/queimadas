@@ -11,6 +11,12 @@ st.image(Image.open('mapa-do-brasil.png'))
 st.title('Introdução')
 st.write('Analisar as ocorrências de queimadas no Brasil, analisando critérios como regiões, meses, estações e evolução durante os anos')
 
+analise = st.sidebar.multiselect(
+    label="Tipo de Análise", 
+    options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
+
+tipo = st.sidebar.radio(label='Tipo', options=['Linhas', 'Barras', 'Dispersão'], index=0)
+
 anos = st.sidebar.select_slider(label='Anos', options=(list(range(1998, 2018, 1))))
 
 regiao = st.sidebar.multiselect(
@@ -23,7 +29,6 @@ estacoes = st.sidebar.multiselect(
     options=['Outono', 'Inverno', 'Primavera', 'Verão']
 )
 
-tipo = st.sidebar.radio(label='Tipo', options=['Linhas', 'Barras', 'Dispersão'], index=0)
 
 st.title('Descrição dos dados')
 st.write('Os dados forem obtidos de uma fonte primária, abrangendo ocorrências de queimadas florestais no período de 1998 a 2017.')
