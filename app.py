@@ -11,7 +11,7 @@ st.image(Image.open('mapa-do-brasil.png'))
 st.title('Introdução')
 st.write('Analisar as ocorrências de queimadas no Brasil, analisando critérios como regiões, meses, estações e evolução durante os anos')
 
-analise = st.sidebar.multiselect(
+analise = st.sidebar.selectbox(
     label="Tipo de Análise", 
     options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
 
