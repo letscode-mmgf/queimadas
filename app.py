@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 
 
-st.title('Queimadas no Brasil asdasdasd')
+st.title('Queimadas no Brasil')
 
 st.image(Image.open('mapa-do-brasil.png'))
 
