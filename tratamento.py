@@ -17,6 +17,14 @@ regioes = {'Acre': 'Norte', 'Roraima': 'Norte', 'Amazonas': 'Norte', 'Pará': 'N
             'Minas Gerais': 'Sudeste', 'Espirito Santo': 'Sudeste', 'Rio': 'Sudeste', 'Sao Paulo': 'Sudeste',
             'Parana': 'Sul', 'Santa Catarina': 'Sul', 'Rio Grande do Sul': 'Sul'}
 
+siglas = {'Acre': 'AC', 'Roraima': 'RR', 'Amazonas': 'AM', 'Pará': 'PA', 'Tocantins': 'TO',
+            'Rondonia': 'RO', 'Maranhao': 'MA', 'Piau': 'PI', 'Bahia': 'BA',
+            'Pernambuco': 'PE', 'Alagoas': 'AL', 'Sergipe': 'SE', 'Rio Grande do Norte': 'RN',
+            'Ceara': 'CE', 'Paraiba': 'PB', 'Amapa': 'AP',
+            'Mato Grosso': 'MT', 'Distrito Federal': 'DF', 'Goias': 'GO',
+            'Minas Gerais': 'MG', 'Espirito Santo': 'ES', 'Rio': 'RJ', 'Sao Paulo': 'SP',
+            'Parana': 'PR', 'Santa Catarina': 'SC', 'Rio Grande do Sul': 'RS'}
+
 def dataset():
     """Dataset
 
@@ -29,6 +37,7 @@ def dataset():
 
     df['estacoes'] = df['month'].map(estacao)
     df['date'] = df['month'].map(dict_meses)
-    df['regioes'] = df['state'].map(regioes)  
-      
+    df['regioes'] = df['state'].map(regioes)
+    df['state'] = df['state'].map(siglas) 
+    df = df.rename(columns={'estacoes':'season', 'regioes': 'region'})  
     return df

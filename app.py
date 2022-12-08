@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
 from PIL import Image
+from tratamento import dataset
+from funcoes import personalizacao
 
 st.set_page_config( layout='wide' )
 
-st.markdown("<h1 style='text-align: center; color: red;'>Queimadas no Brasil</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: grey;'>Queimadas no Brasil</h1>", unsafe_allow_html=True)
 
 st.image(Image.open('mapa-do-brasil.png'))
 
@@ -40,18 +43,22 @@ st.write('https://www.kaggle.com/datasets/gustavomodelli/forest-fires-in-brazil'
 st.write('Uma breve análise exploratória revela a natureza dos nossos dados:')
 
 # ---- modularizar essa parte -----
-df = pd.DataFrame(
-   np.random.randn(50, 20),
-   columns=('col %d' % i for i in range(20)))
+df = dataset()
+columns=('col %d' % i for i in range(20))
 
 st.dataframe(df)  # deixar somente isso
 
 st.write('Gráfico')
 
 
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['a', 'b', 'c'])
+fig = px.histogram(data_frame=df,
+                    x='state', 
+                    y='number',
+                    color='season', 
+                    barmode='group', 
+                    histfunc='avg')
+personalizacao(fig, 'Estados', 'Média de Queimadas', 'Estações')
+st.plotly_chart(fig)
 
-st.line_chart(chart_data)
+
 rotulos = st.checkbox(label='Mostrar rótulos', value=False)
