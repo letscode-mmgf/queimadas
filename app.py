@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title('Queimadas no Brasil')
+st.title('Queimadas no Brasil blablabla')
 
 st.title('Introdução')
 st.write('Analisar as ocorrências de queimadas no Brasil, analisando critérios como regiões, meses, estações e evolução durante os anos')
