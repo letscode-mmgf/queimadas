@@ -9,11 +9,6 @@ st.set_page_config( layout='wide' )
 
 st.markdown("<h1 style='text-align: center; color: grey;'>Queimadas no Brasil</h1>", unsafe_allow_html=True)
 
-st.image(Image.open('mapa-do-brasil.png'))
-
-st.title('Introdução')
-st.write('Analisar as ocorrências de queimadas no Brasil, analisando critérios como regiões, meses, estações e evolução durante os anos')
-
 analise = st.sidebar.selectbox(
     label="Tipo de Análise", 
     options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
@@ -28,47 +23,46 @@ if analise != 'Análise Univariada':
             label="Critérios", 
             options=['Anos', 'Regiões', 'Estações'],
             max_selections=n
-)
+            )
 
     if 'Estações' in criterios:
         estacoes = st.sidebar.multiselect(
             label='Estações', 
             options=['Outono', 'Inverno', 'Primavera', 'Verão'],
             default=['Outono', 'Inverno', 'Primavera', 'Verão']
-        )
+            )
 
     if 'Regiões' in criterios:
         regioes = st.sidebar.multiselect(
             label="Região", 
             options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
             default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
-        )
+            )
 
-    if 'Anos' in criterios:
-        anos = st.sidebar.select_slider(label='Anos', options=(list(range(1998, 2018, 1))))
+    if 'Anos' in criterios: anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
     
-st.title('Descrição dos dados')
-st.write('Os dados forem obtidos de uma fonte primária, abrangendo ocorrências de queimadas florestais no período de 1998 a 2017.')
-st.write('Os dados estão disponíveis através do kaggle pela URL abaixo:')
-st.write('https://www.kaggle.com/datasets/gustavomodelli/forest-fires-in-brazil')
-
-
-st.write('Uma breve análise exploratória revela a natureza dos nossos dados:')
-
 df = dataset()
+st.write('Amostra dos Dados')
 st.dataframe(df.head())
 
 st.write('Gráfico')
 
-st.write(regioes)
-
 if analise == 'Análise Univariada':
-    if tipo == 'Linha': st.plotly_chart(get_line_chart(df))
+    if tipo == 'Linhas': st.plotly_chart(get_line_chart(df))
     elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
-    elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
+    elif tipo == 'Dispersão': st.write('ADICIONAR GRÁFICO DE DISPERSÃO')#st.plotly_chart(get_dispersion(df))
 
 if analise == 'Análise Bivariada':
-    if tipo == 'Linha': st.plotly_chart(get_line_chart(df))
+    if tipo == 'Linhas':
+        if 'Anos' in criterios and 'Regiões' in criterios:
+            st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), region=regioes))
+        
+        if 'Anos' in criterios and 'Estações' in criterios:
+            st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), season=estacoes))
+
+        if 'Regiões' in criterios and 'Estações' in criterios:
+            st.plotly_chart(get_line_chart_bivariada(df, region=regioes, season=estacoes))
+
     elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
     elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
 

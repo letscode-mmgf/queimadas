@@ -30,26 +30,40 @@ def personalizacao(variavel: vars, tit_x: str, tit_y: str, tit_leg: str):
                 
                 template='plotly_dark')
 
-def get_histogram(df, regioes):
+def get_line_chart(df):
+    df_plot = df.groupby('year')['number'].sum().reset_index().sort_values(by= 'year')
+    linha = px.line(data_frame=df_plot, x='year', y='number', markers=True, template='plotly_dark')
+    personalizacao(linha, 'Anos', 'Número de Queimadas Registradas', None)
+    return linha
 
-    if len(regioes) == 0: df_filtrado = df
+def get_histogram(df):
 
-    if len(regioes) > 0:
-        filtro = (df['region'] in regioes)
-        df_filtrado = df[filtro]
-
-    fig = px.histogram(data_frame=df_filtrado,
+    histogram = px.histogram(data_frame=df,
                         x='state', 
                         y='number',
                         color='season', 
                         barmode='group', 
                         histfunc='avg')
 
-    personalizacao(fig, 'Estados', 'Média de Queimadas', 'Estações')
-    return fig
+    personalizacao(histogram, 'Estados', 'Média de Queimadas', 'Estações')
+    return histogram
 
-def get_line_chart(df):
+
+def get_dispersion(df):
     df_plot = df.groupby('year')['number'].sum().reset_index().sort_values(by= 'year')
-    linha = px.line(data_frame=df_plot, x='year', y='number', markers=True, template='plotly_dark')
+    linha = px.scatter(data_frame=df_plot, x='year', y='number', markers=True, template='plotly_dark')
     personalizacao(linha, 'Anos', 'Número de Queimadas Registradas', None)
     return linha
+
+def get_line_chart_bivariada(df, **kwargs):
+  
+  colunas = list(kwargs.keys())
+
+  for key, values in kwargs.items():
+    df = df[df[key].isin(values)]
+
+  df_agrupado = df.groupby(colunas)['number'].sum().reset_index()
+  grafico = px.line(data_frame=df_agrupado, x=colunas[0], y='number', color = colunas[1], markers=False, template='plotly_dark')
+  personalizacao(grafico, 'Anos', 'Número de Queimadas Registradas', 'Regiões do Brasil')
+
+  return grafico
