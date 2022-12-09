@@ -7,7 +7,26 @@ from funcoes import *
 
 st.set_page_config( layout='wide' )
 
-st.markdown("<h1 style='text-align: center; color: grey;'>Queimadas no Brasil</h1>", unsafe_allow_html=True)
+st.title('Queimadas no Brasil')
+
+rotulos = st.checkbox(label='Mostrar cabeçalho', value=False)
+if rotulos:
+    st.title('Descrição dos dados')
+    st.write('Os dados forem obtidos de uma fonte primária, abrangendo ocorrências de queimadas florestais no período de 1998 a 2017.')
+    st.write('Os dados estão disponíveis através do kaggle pela URL abaixo:')
+    st.write('https://www.kaggle.com/datasets/gustavomodelli/forest-fires-in-brazil')
+    st.write('- Filipe Sousa')
+    st.write('- Guilherme Oliveira')
+    st.write('- Marcelo Mesquita')
+    st.write('- Marina Maracajá')
+
+st.title('Amostra dos Dados')
+st.write('Uma breve análise exploratória para revelar a natureza dos nossos dados:')
+
+df = dataset()
+st.dataframe(df.head())
+
+# ---------------- SIDEBAR ---------------------------
 
 analise = st.sidebar.selectbox(
     label="Tipo de Análise", 
@@ -41,11 +60,9 @@ if analise != 'Análise Univariada':
 
     if 'Anos' in criterios: anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
     
-df = dataset()
-st.write('Amostra dos Dados')
-st.dataframe(df.head())
+# --------- GRAFICOS -----------------------------------------
 
-st.write('Gráfico')
+st.title('Gráfico')
 
 if analise == 'Análise Univariada':
     if tipo == 'Linhas': st.plotly_chart(get_line_chart(df))
@@ -65,5 +82,3 @@ if analise == 'Análise Bivariada':
 
     elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
     elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
-
-rotulos = st.checkbox(label='Mostrar rótulos', value=False)
