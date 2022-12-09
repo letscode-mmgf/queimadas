@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from tratamento import dataset
-from funcoes import *
+from tratamento import *
+from plotagem import *
 
 st.set_page_config( layout='wide' )
 
@@ -28,57 +28,68 @@ st.dataframe(df.head())
 
 # ---------------- SIDEBAR ---------------------------
 
-analise = st.sidebar.selectbox(
+filtros = st.sidebar.multiselect(
+        label="Filtros", 
+        options=['Anos', 'Regiões', 'Estações']
+)
+
+anos = list(range(1998, 2017, 1))
+regioes = ['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
+estacoes = ['Outono', 'Inverno', 'Primavera', 'Verão']
+
+if 'Estações' in filtros:
+    estacoes = st.sidebar.multiselect(
+        label='Estações', 
+        options=['Outono', 'Inverno', 'Primavera', 'Verão'],
+        default=['Outono', 'Inverno', 'Primavera', 'Verão']
+)
+
+if 'Regiões' in filtros:
+    regioes = st.sidebar.multiselect(
+        label="Região", 
+        options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
+        default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
+)
+
+if 'Anos' in filtros: anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
+
+df = filtragem(df, anos, regioes, estacoes)
+
+analise = st.selectbox(
     label="Tipo de Análise", 
     options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
 
-tipo = st.sidebar.radio(label='Tipo', options=['Linhas', 'Barras', 'Dispersão'], index=0)
-
-if analise != 'Análise Univariada':
-    if analise == 'Análise Bivariada': n = 2
-    elif analise == 'Análise Multivariada': n = 3
-
-    criterios = st.sidebar.multiselect(
-            label="Critérios", 
-            options=['Anos', 'Regiões', 'Estações'],
-            max_selections=n
-            )
-
-    if 'Estações' in criterios:
-        estacoes = st.sidebar.multiselect(
-            label='Estações', 
-            options=['Outono', 'Inverno', 'Primavera', 'Verão'],
-            default=['Outono', 'Inverno', 'Primavera', 'Verão']
-            )
-
-    if 'Regiões' in criterios:
-        regioes = st.sidebar.multiselect(
-            label="Região", 
-            options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
-            default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
-            )
-
-    if 'Anos' in criterios: anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
-    
-# --------- GRAFICOS -----------------------------------------
-
-st.title('Gráfico')
-
 if analise == 'Análise Univariada':
-    if tipo == 'Linhas': st.plotly_chart(get_line_chart(df))
-    elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
-    elif tipo == 'Dispersão': st.write('ADICIONAR GRÁFICO DE DISPERSÃO')#st.plotly_chart(get_dispersion(df))
+    st.title('Gráfico')
+    
+    st.write('Linhas')
+    st.plotly_chart(get_line_chart(df))
+    
+    st.write('Barras')
+    st.plotly_chart(get_histogram(df))
+    
+    st.write('Dispersão')
+    st.write('ADICIONAR GRÁFICO DE DISPERSÃO')#st.plotly_chart(get_dispersion(df))
 
 if analise == 'Análise Bivariada':
-    if tipo == 'Linhas':
-        if 'Anos' in criterios and 'Regiões' in criterios:
-            st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), region=regioes))
-        
-        if 'Anos' in criterios and 'Estações' in criterios:
-            st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), season=estacoes))
+    
+    criterios = st.multiselect(
+        label="Escolha 2 critérios", 
+        options=['Anos', 'Regiões', 'Estações'],
+        max_selections=2
+    )
+    
+    st.title('MOSTRAR N GRAFICOS')
+    if 'Anos' in criterios and 'Regiões' in criterios:
+        st.write('MOSTRAR TODOS OS GRAFICOS POSSIVEIS PARA ESSES DOIS CRITERIOS')
+        st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), region=regioes))
 
-        if 'Regiões' in criterios and 'Estações' in criterios:
-            st.plotly_chart(get_line_chart_bivariada(df, region=regioes, season=estacoes))
+    if 'Anos' in criterios and 'Estações' in criterios:
+        st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), season=estacoes))
 
-    elif tipo == 'Barras': st.plotly_chart(get_histogram(df))
-    elif tipo == 'Dispersão': st.plotly_chart(get_histogram(df))
+    if 'Regiões' in criterios and 'Estações' in criterios:
+        st.plotly_chart(get_line_chart_bivariada(df, region=regioes, season=estacoes))
+        #tipo = st.sidebar.radio(label='Tipo', options=['Linhas', 'Barras', 'Dispersão'], index=0)
+
+if analise == 'Análise Multivariada':
+    st.title('MOSTRAR N GRAFICOS')

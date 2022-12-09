@@ -41,3 +41,11 @@ def dataset():
     df['state'] = df['state'].map(siglas) 
     df = df.rename(columns={'estacoes':'season', 'regioes': 'region'})  
     return df
+
+def filtragem(df, anos, regioes, estacoes):
+
+    df = df[df['year'].isin(anos)]
+    df = df[df['region'].isin(regioes)]
+    df = df[df['season'].isin(estacoes)]
+
+    return df
