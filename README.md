@@ -10,6 +10,9 @@ No estudo de caso, foi utilizado o seguinte [Dataset](<https://www.kaggle.com/da
 
 <br>
 
+O projeto encontra-se em produção no link abaixo:
+https://letscode-mmgf-queimadas-app-r9akfp.streamlit.app/
+
 <h2 align="center"> Tecnologias Utilizadas </h2>
 
 <br>
