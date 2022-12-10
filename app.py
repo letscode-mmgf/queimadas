@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
-from tratamento import *
+from tratamento import filtragem, dataset
 from plotagem import *
 
 st.set_page_config( layout='wide' )
@@ -73,7 +73,8 @@ if analise == 'Análise Univariada':
     st.plotly_chart(get_histogram(df))
 
     st.title("Análise")
-    st.write('INSERIR COMENTARIOS AQUI')
+    st.write('Pode-se visualizar que houve um crescimento expressivo no número de queimadas a partir do ano 2000, seguido de um período de queda entre 2003 e 2011. Em 2011 pode ser observado um novo aumento na quantidade de queimadas.')
+    st.write('Também é notável que as queimadas acontecem majoritariamento durante o inverno (possivelmente devido ao baixa na umidade do ar.')
 
 if analise == 'Análise Bivariada':
     
@@ -97,10 +98,13 @@ if analise == 'Análise Bivariada':
         st.plotly_chart(get_bar_chart_bivariada(df, region=regioes, season=estacoes))
 
     st.title("Análise")
-    st.write('INSERIR COMENTARIOS AQUI')
+    st.write('Pode-se ver que as queimadas acontecem majoritariamente nos estados do norte, nordeste e sudeste do Brasil.')
 
 if analise == 'Análise Multivariada':
     st.title('Análise Multivariada')
+    
+    st.title("Análise")
+    st.write('Ainda não foi possível concluir as Análise Multivariadas')
 
 st.title("Conclusão")
-st.write('INSERIR CONCLUSÃO AQUI')
+st.write('Após analisar os dados, podemos concluir que os estados os estados do nordeste são campeões em queimadas e que (embora tenham existidos períodos de queda) existe uma tendência de crescimento no número de queimadas no Brasil.')
