@@ -52,3 +52,9 @@ O projeto encontra-se em produção no link abaixo:
 12 de  dezembro de 2022
 
 </div>
+
+
+
+##
+<img align="right" alt="grogu" height="50" style="border-radius:50px;" src="https://ada-site-frontend.s3.sa-east-1.amazonaws.com/home/header-logo.svg">
+
