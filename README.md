@@ -1,8 +1,8 @@
-<h1 align="center">Forest Fire in Brazil </h1>
+<h1 align="center"> Forest Fire in Brazil </h1>
 
 ## :information_source: Sobre
 
-Projeto de conclusão da matéria Técnicas de Programação II (PY) do curso de Python e Dados da Let's Code em parceria com a Suzano Celulose e Papel S/A.
+Projeto de conclusão da disciplina Técnicas de Programação II (PY) do curso de Python e Dados da Let's Code em parceria com a Suzano Celulose e Papel S/A.
 
 <br>
 
@@ -11,7 +11,14 @@ No estudo de caso, foi utilizado o seguinte [Dataset](<https://www.kaggle.com/da
 <br>
 
 O projeto encontra-se em produção no link abaixo:
-https://letscode-mmgf-queimadas-app-r9akfp.streamlit.app/
+
+<h3 align="center">
+
+[Forest Fire In Brazil](https://letscode-mmgf-queimadas-app-r9akfp.streamlit.app/)
+
+</h3>
+
+<br>
 
 <h2 align="center"> Tecnologias Utilizadas </h2>
 
@@ -28,7 +35,7 @@ https://letscode-mmgf-queimadas-app-r9akfp.streamlit.app/
 <br>
 
 <div align="center">
-    <h2>Autores </h2>
+    <h2> Autores </h2>
 
 [Filipe Sousa](https://github.com/lfilipesousa)
 
