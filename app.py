@@ -5,13 +5,13 @@ from PIL import Image
 from tratamento import filtragem, dataset
 from plotagem import *
 
-st.set_page_config( layout='wide' )
+st.set_page_config(layout='wide')
 
 # ---------------- SIDEBAR ---------------------------
 
 filtros = st.sidebar.multiselect(
-        label="Filtros", 
-        options=['Anos', 'Regiões', 'Estações']
+    label="Filtros",
+    options=['Anos', 'Regiões', 'Estações']
 )
 
 anos = list(range(1998, 2017, 1))
@@ -20,19 +20,22 @@ estacoes = ['Outono', 'Inverno', 'Primavera', 'Verão']
 
 if 'Estações' in filtros:
     estacoes = st.sidebar.multiselect(
-        label='Estações', 
+        label='Estações',
         options=['Outono', 'Inverno', 'Primavera', 'Verão'],
         default=['Outono', 'Inverno', 'Primavera', 'Verão']
-)
+    )
 
 if 'Regiões' in filtros:
     regioes = st.sidebar.multiselect(
-        label="Região", 
-        options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro'],
-        default=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro Oeste', 'Centro']
-)
+        label="Região",
+        options=['Norte', 'Nordeste', 'Sudeste',
+                 'Sul', 'Centro Oeste', 'Centro'],
+        default=['Norte', 'Nordeste', 'Sudeste',
+                 'Sul', 'Centro Oeste', 'Centro']
+    )
 
-if 'Anos' in filtros: anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
+if 'Anos' in filtros:
+    anos = st.sidebar.slider('Anos', 1998, 2017, (1998, 2017))
 
 df = dataset()
 df = filtragem(df, anos, regioes, estacoes)
@@ -52,7 +55,8 @@ if rotulos:
     st.write('- Marina Maracajá')
 
     st.title('Amostra dos Dados')
-    st.write('Uma breve análise exploratória para revelar a natureza dos nossos dados:')
+    st.write(
+        'Uma breve análise exploratória para revelar a natureza dos nossos dados:')
     st.dataframe(df.head())
 
 st.title('Objetivos')
@@ -61,48 +65,56 @@ st.write('Salientar quais são os intervalos temporais com maiores números de q
 st.title('Tipos de Análises')
 
 analise = st.selectbox(
-    label="Tipo de Análise", 
+    label="Tipo de Análise",
     options=['Análise Univariada', 'Análise Bivariada', 'Análise Multivariada'])
 
 if analise == 'Análise Univariada':
-    
-    st.write('Linhas')
-    st.plotly_chart(get_line_chart(df))
-    
-    st.write('Barras')
-    st.plotly_chart(get_histogram(df))
+
+    col1, col2 = st.columns(2)
+
+    col1.plotly_chart(get_line_chart(df), use_column_width=True)
+
+    col2.plotly_chart(get_histogram(df), use_column_width=True)
 
     st.title("Análise")
     st.write('Pode-se visualizar que houve um crescimento expressivo no número de queimadas a partir do ano 2000, seguido de um período de queda entre 2003 e 2011. Em 2011 pode ser observado um novo aumento na quantidade de queimadas.')
     st.write('Também é notável que as queimadas acontecem majoritariamento durante o inverno (possivelmente devido ao baixa na umidade do ar.')
 
 if analise == 'Análise Bivariada':
-    
+
     criterios = st.multiselect(
-        label="Escolha 2 critérios", 
+        label="Escolha 2 critérios",
         options=['Anos', 'Regiões', 'Estações'],
         max_selections=2
     )
-    
+
+    col1, col2 = st.columns(2)
+
     if 'Anos' in criterios and 'Regiões' in criterios:
-        
-        st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), region=regioes))
-        st.plotly_chart(get_bar_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), region=regioes))
+
+        col1.plotly_chart(get_line_chart_bivariada(
+            df, year=list(range(anos[0], anos[1], 1)), region=regioes), use_column_width=True)
+        col2.plotly_chart(get_bar_chart_bivariada(
+            df, year=list(range(anos[0], anos[1], 1)), region=regioes), use_column_width=True)
 
     if 'Anos' in criterios and 'Estações' in criterios:
-        st.plotly_chart(get_line_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), season=estacoes))
-        st.plotly_chart(get_bar_chart_bivariada(df, year=list(range(anos[0], anos[1], 1)), season=estacoes))
+        col1.plotly_chart(get_line_chart_bivariada(
+            df, year=list(range(anos[0], anos[1], 1)), season=estacoes), use_column_width=True)
+        col2.plotly_chart(get_bar_chart_bivariada(
+            df, year=list(range(anos[0], anos[1], 1)), season=estacoes), use_column_width=True)
 
     if 'Regiões' in criterios and 'Estações' in criterios:
-        st.plotly_chart(get_line_chart_bivariada(df, region=regioes, season=estacoes))
-        st.plotly_chart(get_bar_chart_bivariada(df, region=regioes, season=estacoes))
+        col1.plotly_chart(get_line_chart_bivariada(
+            df, region=regioes, season=estacoes), use_column_width=True)
+        col2.plotly_chart(get_bar_chart_bivariada(
+            df, region=regioes, season=estacoes), use_column_width=True)
 
     st.title("Análise")
     st.write('Pode-se ver que as queimadas acontecem majoritariamente nos estados do norte, nordeste e sudeste do Brasil.')
 
 if analise == 'Análise Multivariada':
     st.title('Análise Multivariada')
-    
+
     st.title("Análise")
     st.write('Ainda não foi possível concluir as Análise Multivariadas')
 
